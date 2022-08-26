@@ -29,8 +29,8 @@ class Ball:
         # ボールの移動スピードをとりあえず0で作っておく
         self.speed = 0
         # ボールのx/yのスピードを0でとりあえず初期化
-        self.x = 0
-        self.y = 0
+        self.x = 300
+        self.y = 500
 
     def start(self, evt):
         # ボール移動中なら何もしない
@@ -95,18 +95,24 @@ class Ball:
 
         for i in range(self.block.w * self.block.h):
             if (
-                pos[2] >= block_pos[i][0]
-                and pos[0] <= block_pos[i][2]
-                and block_pos[i][1] <= pos[3] <= block_pos[i][3]
+                pos[0] <= block_pos[i][2]
+                and pos[2] >= block_pos[i][0]
+                and pos[1] <= block_pos[i][3]
+                and pos[3] >= block_pos[i][1]
             ):
+                self.block.crash(i)
+                if pos[0] <= block_pos[i][2] and pos[0] >= block_pos[i][0]:
+                    self.x = -self.x
+
+                if pos[1] <= block_pos[i][3] and pos[1] >= block_pos[i][1]:
+                    self.x = -self.x
+
                 if pos[2] >= block_pos[i][0] and pos[2] <= block_pos[i][2]:
-                    self.x = -self.x
-                elif pos[0] <= block_pos[i][2] and pos[0] >= block_pos[i][0]:
-                    self.x = -self.x
-                elif pos[1] >= block_pos[i][3] and pos[1] >= block_pos[i][1]:
                     self.y = -self.y
-                elif pos[3] <= block_pos[i][0] and pos[3] <= block_pos[i][3]:
+
+                if pos[3] >= block_pos[i][1] and pos[3] <= block_pos[i][3]:
                     self.y = -self.y
+                
 
     def fix(self, diff_x, diff_y):
         # x/y の差分を受け取って、2倍した数を逆に移動する。
