@@ -1,5 +1,5 @@
 class Block:
-    w_x = 100
+    w_x = 10000
     w_y = 30
     w = 1
     h = 1
